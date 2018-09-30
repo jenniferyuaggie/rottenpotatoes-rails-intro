@@ -11,7 +11,32 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.all_ratings
     @movies = Movie.all
+    
+    if params[:sort]
+      @sort = params[:sort]
+    else
+      @sort = session[:sort]
+    end
+    
+    if params[:commit] == 'Refresh'
+       if params[:ratings]
+         @ratings_filter = params[:ratings].keys
+       else
+         @ratings_filter = @all_ratings
+       end
+    else
+       if params[:ratings]
+         @ratings_filter = params[:ratings].keys
+       else
+         if session[:ratings]
+           @ratings_filter = session[:ratings]
+         else
+          @ratings_filter = @all_ratings
+         end
+       end
+    end
   end
 
   def new
