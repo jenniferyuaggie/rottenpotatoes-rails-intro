@@ -37,6 +37,18 @@ class MoviesController < ApplicationController
          end
        end
     end
+    
+    if @sort!=session[:sort]
+       session[:sort] = @sort
+    end
+    
+    if @ratings_filter!=session[:ratings]
+       session[:ratings] = @ratings_filter
+    end
+      
+    @movies = Movie.sorting(@sort)
+    @movies = @movies.sorting(@sort)
+    @movies = @movies.rating(@ratings_filter)
   end
 
   def new
